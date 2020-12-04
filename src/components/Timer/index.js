@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Timer = () => {
+const Timer = ({ time, setTime, duration, setDuration, progressBarWidth }) => {
   const classes = useStyles();
 
   return (
@@ -62,7 +62,7 @@ const Timer = () => {
               <Grid item xs={7}>
                 <LinearProgress
                   variant="determinate"
-                  value={50}
+                  value={progressBarWidth}
                   className={classes.bar}
                 />
               </Grid>
@@ -70,7 +70,7 @@ const Timer = () => {
             <Grid container className={classes.container}>
               <Grid item xs={3}>
                 <Typography align="right" className={classes.label}>
-                  0.0s
+                  {(time / 1000).toFixed(1)}s
                 </Typography>
               </Grid>
               <Grid item xs={8}></Grid>
@@ -81,15 +81,22 @@ const Timer = () => {
               </Grid>
               <Grid item xs={7}>
                 <Slider
-                  value={0}
-                  onChange={() => {}}
+                  value={duration}
+                  onChange={(e, newValue) => setDuration(Number(newValue))}
+                  step={100}
+                  min={0}
+                  max={30000}
                   aria-labelledby="input-slider"
                 />
               </Grid>
             </Grid>
             <Grid container className={classes.container}>
               <Grid item xs={11}>
-                <Button variant="contained" fullWidth>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  onClick={() => setTime(0)}
+                >
                   Reset
                 </Button>
               </Grid>
